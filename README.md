@@ -1,158 +1,130 @@
 # Text Analytics and Tree Structures
 
-Implementation of core data structures and algorithmic text analysis using *Alice’s Adventures in Wonderland* as the source text.
+[![CI](https://github.com/anneliset47/text-analytics-and-tree-structures/actions/workflows/ci.yml/badge.svg)](https://github.com/anneliset47/text-analytics-and-tree-structures/actions/workflows/ci.yml)
+[![Lint](https://github.com/anneliset47/text-analytics-and-tree-structures/actions/workflows/lint.yml/badge.svg)](https://github.com/anneliset47/text-analytics-and-tree-structures/actions/workflows/lint.yml)
 
----
+This project showcases two core computer science skills in one reproducible workflow:
 
-## Project Overview
+1. **Tree data structures** for hierarchical modeling and recursive traversal.
+2. **Text analytics** over *Alice’s Adventures in Wonderland* (tokenization, frequencies, n-grams, and visualizations).
 
-This project demonstrates two primary algorithmic concepts:
+It is structured to be portfolio-friendly for recruiters and easy to run end-to-end from the command line.
 
-1. **Tree Data Structures**
-   - Hierarchical representation of a book’s table of contents
-   - Recursive traversal
-   - Depth and height calculations
+## Why this project matters
 
-2. **Text Analytics**
-   - Letter frequency distribution
-   - Stopword removal
-   - Word frequency analysis
-   - Bigram and trigram modeling
-   - Word cloud visualization
-   - Algorithm complexity analysis (Big-O notation)
+- Demonstrates **algorithmic reasoning** (tree depth/height, n-gram construction).
+- Demonstrates **data processing** with clean, script-based execution.
+- Demonstrates **reproducibility** with pinned dependencies and deterministic outputs.
+- Demonstrates **communication** with generated artifacts + report.
 
-The text corpus analyzed is *Alice’s Adventures in Wonderland* by Lewis Carroll.
+## Project structure
 
----
-
-## Part 1: Tree Data Structure – Table of Contents
-
-### Approach
-
-A `Node` class was implemented to represent chapters and subchapters in a hierarchical structure.
-
-Each node:
-- Stores a title
-- Maintains a list of child nodes
-- Uses recursive traversal to print structure
-- Supports dynamic insertion at specified levels
-
-### Key Concepts Demonstrated
-
-- Recursive traversal
-- Parent-child hierarchical modeling
-- Tree depth calculation
-- Tree height computation
-- Structured class-based design
-
-Time Complexity:
-- Traversal: **O(n)**
-
----
-
-## Part 2: Text Analytics
-
-### 1. Letter Frequency Distribution
-
-- Converted text to lowercase
-- Removed punctuation
-- Counted occurrences of each letter (a–z)
-- Generated frequency table and visualization
-
-Time Complexity:
-- **O(n)**
-
----
-
-### 2. Top 40 Words
-
-- Tokenized text
-- Removed stopwords
-- Counted unique word frequencies
-- Sorted results
-
-Time Complexity:
-- **O(w log w)**  
-(where w = number of unique words)
-
----
-
-### 3. Bigram Analysis
-
-- Generated word pairs
-- Counted frequency
-- Sorted top 20 results
-- Created word cloud visualization
-
-Time Complexity:
-- **O(w log w)**
-
----
-
-### 4. Trigram Analysis
-
-- Generated three-word sequences
-- Counted frequencies
-- Sorted top 20 results
-- Created word cloud visualization
-
-Time Complexity:
-- **O(w log w)**
-
----
-
-## Key Findings
-
-- Most common letters: **e, a, t**
-- Most common word: **“said”**, reflecting dialogue-heavy structure
-- Frequent bigrams: “said Alice”, “Mock Turtle”
-- Frequent trigrams: “said Mock Turtle”, “said March Hare”
-
-The distribution patterns reflect standard English writing and the conversational structure of the novel.
-
----
-
-## Repository Structure
-
-```
+```text
 text-analytics-and-tree-structures/
-│
 ├── README.md
 ├── requirements.txt
-│
+├── Makefile
+├── .gitignore
+├── data/
+│   ├── Alice In Wonderland.txt
+│   └── DS Technical Book Link.pdf
+├── figures/
 ├── notebooks/
-│   └── text_analytics_and_tree_structures.ipynb
-│
+│   ├── text_analytics_and_tree_structures.ipynb
+│   └── text_analytics_and_tree_structures.py   # direct notebook code extraction
 ├── report/
-│   └── text_analytics_report.pdf
-│
-└── figures/
-    ├── letter_distribution.png
-    ├── word_cloud.png
-    └── ...
+│   ├── text_analytics_and_tree_structures_report.pdf
+│   └── generated/                               # created by pipeline
+└── src/
+      └── text_analytics_and_tree_structures.py   # production-style CLI pipeline
 ```
 
----
+## Quickstart
 
-## Concepts Demonstrated
+### 1) Create and activate a virtual environment
 
-- Object-Oriented Programming
-- Recursive Algorithms
-- Frequency Counting
-- N-gram Modeling
-- Sorting Algorithms
-- Time Complexity Analysis
-- Data Visualization
-
----
-
-## Reproducibility
-
-Install dependencies:
-
-```
-pip install -r requirements.txt
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-Run the notebook in the `notebooks/` directory.
+### 2) Install dependencies
+
+```bash
+make install
+```
+
+### 3) Run the pipeline
+
+```bash
+make run
+```
+
+### 4) Run tests
+
+```bash
+make test
+```
+
+### 5) Run lint checks
+
+```bash
+make lint
+```
+
+This generates:
+
+- **Figures** in `figures/`
+   - `letter_frequency.png`
+   - `top_words_wordcloud.png`
+   - `top_bigrams_wordcloud.png`
+   - `top_trigrams_wordcloud.png`
+- **Tabular outputs** in `report/generated/`
+   - `letter_frequency.csv`
+   - `top_40_words.csv`
+   - `top_20_bigrams.csv`
+   - `top_20_trigrams.csv`
+   - `table_of_contents.txt`
+
+## Main implementation details
+
+### Tree structure module
+
+The `Node` model supports:
+
+- adding child nodes,
+- recursive table-of-contents rendering,
+- chapter depth lookup,
+- full tree height calculation.
+
+### Text analytics module
+
+The CLI pipeline:
+
+- loads source text,
+- normalizes and tokenizes content,
+- removes stopwords,
+- computes letter and token frequencies,
+- computes bigrams and trigrams,
+- saves both visual and CSV artifacts.
+
+## Complexity (high level)
+
+- Tree traversal: **O(n)**
+- Letter counting: **O(n)**
+- Token counting with hash maps: **O(n)** average
+- N-gram creation: **O(n)**
+
+## Notes for recruiters/reviewers
+
+- The notebook remains available for exploratory review.
+- The `src/` script provides a cleaner production-style interface for consistent execution.
+- The generated artifacts are deterministic for the same input corpus.
+- GitHub Actions runs tests automatically on pushes and pull requests to `main`.
+
+## Quality gates
+
+- **CI workflow**: runs the unit/smoke test suite across multiple Python versions.
+- **Lint workflow**: runs `ruff` checks for import order, syntax quality, and style consistency.
+- Together, these workflows provide fast feedback and protect `main` from regressions.
 
